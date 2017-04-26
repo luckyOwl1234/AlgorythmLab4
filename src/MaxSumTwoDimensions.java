@@ -9,30 +9,24 @@ import java.util.Random;
 public class MaxSumTwoDimensions {
 
     private static Random random = new Random();
-    
-    // A couple of two dimensional algorithms for rectangular matrixes.
-    
-    // O(n^6)
-    public static int maxSubMatrixSumBad( int[][] a ) {
-        int maxSum = 0, startRpos = 0, startCpos = 0, endCpos = 0, endRpos = 0;
 
-        for(int c1 = 0; c1 < a.length; c1++){
-            for(int r1 = 0; r1 < a[c1].length; r1++){
-                for(int c2 = c1; c2 < a.length; c2++){
-                    for(int r2 = r1; r2 < a[c1].length; r2++){ //möjligtviss ska det vara j istället för i
-                        startRpos = r1;
-                        startCpos = c1;
-                        endRpos = r2;
-                        endCpos = c2;
+    // A couple of two dimensional algorithms for rectangular matrixes.
+
+    // O(n^6)
+    public static int maxSubMatrixSumBad(int[][] a) {
+        int maxSum = 0;
+
+        for (int c1 = 0; c1 < a.length; c1++) {
+            for (int r1 = 0; r1 < a[c1].length; r1++) {
+                for (int c2 = c1; c2 < a.length; c2++) {
+                    for (int r2 = r1; r2 < a[c1].length; r2++) { //möjligtviss ska det vara j istället för i
 
                         int thisSum = 0;
-                        for(int x = startRpos; x <= endRpos; x++){
-                            for(int y = startCpos; y <= endCpos; y++){
-                                thisSum += a[x][y];
-                            }
-                        }
+                        for(int r3 = r1; r3 <= r2; r3++)
+                            for(int c3 = c1; c3 <= c2; c3++)
+                                thisSum += a[ r3 ] [ c3 ];
 
-                        if(thisSum > maxSum){
+                        if (thisSum > maxSum) {
                             maxSum = thisSum;
                         }
                     }
@@ -43,15 +37,35 @@ public class MaxSumTwoDimensions {
     }
 
     // O(n^5)
-    public static int maxSubMatrixSumBetter( int[][] a ) {
-        
+    public static int maxSubMatrixSumBetter(int[][] a) {
+
         return 0;
     }
     
     // O(n^4)
     public static int maxSubMatrixSumEvenBetter( int[][] a ) {
-        // ...
-        return 0;
+        int maxSum = 0;
+
+        for (int c1 = 0; c1 < a.length; c1++) {
+            for (int r1 = 0; r1 < a[c1].length; r1++) {
+                int thisSum = 0;
+                for (int c2 = c1; c2 < a.length; c2++){
+                    for (int r2 = r1; r2 < a[c2].length; r2++) {  //möjligtviss ska det vara j istället för i
+
+                        thisSum += a[r2][c2];
+
+                        if (thisSum > maxSum) {
+                            //System.out.println("start R: " + r1 + " start C: " + c1 + " end R: " + r2 + " end C: " + c2 + "\n");
+                            maxSum = thisSum;
+                        }
+                    }
+
+                }
+
+            }
+        }
+
+        return maxSum;
     }
     
     private static int[][] randMatrix(int m,int n) {
@@ -65,7 +79,7 @@ public class MaxSumTwoDimensions {
     private static void test(int[][] m) {
 // Uncomment as you proceed!
 //         System.out.println("EvenBetter: "+maxSubMatrixSumEvenBetter(m));
-//         System.out.println("Better: "+maxSubMatrixSumBetter(m));
+        System.out.println("Better: "+maxSubMatrixSumBetter(m));
         System.out.println("Bad: "+maxSubMatrixSumBad(m));
     }
     
@@ -74,10 +88,10 @@ public class MaxSumTwoDimensions {
         
         // This is the matrix in the lab PM.
         int[][] sampleMatrix = {     // max sum is 21
-            {-1,-2,1,3},
-            {0,2,0,8},
-            {-5,10,-2,1},
-            {4,5,-7,1}
+            {-1,-2, 1, 3},
+            { 0, 2,  0,8},
+            {-5,10,-2, 1},
+            { 4, 5,-7, 1}
         };
         test(sampleMatrix);
 
@@ -120,10 +134,10 @@ public class MaxSumTwoDimensions {
          test(matrix_20x20);
         
         // Test the algorithms for random matrixes of increasing sizes.
-        for ( int size = 1; size <= 2048; size *= 2 ) {
+        /*for ( int size = 1; size <= 2048; size *= 2 ) {
             int[][] m = randMatrix(size,size);
             System.out.println("\nSize = " + size);
             test(m);
-        }
+        }*/
     }
 }
