@@ -14,21 +14,17 @@ public class MaxSumTwoDimensions {
     
     // O(n^6)
     public static int maxSubMatrixSumBad( int[][] a ) {
-        int maxSum = 0, startRpos = 0, startCpos = 0, endCpos = 0, endRpos = 0;
+        int maxSum = 0;
 
         for(int c1 = 0; c1 < a.length; c1++){
             for(int r1 = 0; r1 < a[c1].length; r1++){
                 for(int c2 = c1; c2 < a.length; c2++){
                     for(int r2 = r1; r2 < a[c1].length; r2++){ //möjligtviss ska det vara j istället för i
-                        startRpos = r1;
-                        startCpos = c1;
-                        endRpos = r2;
-                        endCpos = c2;
 
                         int thisSum = 0;
-                        for(int x = startRpos; x <= endRpos; x++){
-                            for(int y = startCpos; y <= endCpos; y++){
-                                thisSum += a[x][y];
+                        for(int r3 = r1; r3 <= r2; r3++){
+                            for(int c3 = c1; c3 <= c2; c3++){
+                                thisSum += a[r3][c3];
                             }
                         }
 
@@ -69,22 +65,33 @@ public class MaxSumTwoDimensions {
     
     // O(n^4)
     public static int maxSubMatrixSumEvenBetter( int[][] a ) {
-        /*int maxSum = 0, startRpos = 0, startCpos = 0, endCpos = 0, endRpos = 0;
+        int maxSum = 0;
+        int thisSum = 0;
 
         for(int c1 = 0; c1 < a.length; c1++){
             for(int r1 = 0; r1 < a[c1].length; r1++){
-                int thisSum = 0;
                 for(int c2 = c1; c2 < a.length; c2++){
                     for(int r2 = r1; r2 < a[c1].length; r2++){ //möjligtviss ska det vara j istället för i
-                        thisSum += a[r2][c2];
+
+
+                        thisSum = Math.max(0,thisSum + a[r2][c2]);
+                        maxSum = Math.max(maxSum,thisSum);
+
+
+                        /*thisSum += a[r2][c2];
+
+                        if(thisSum > maxSum) {
+                            maxSum = thisSum;
+                        }else if (thisSum < 0){
+                            thisSum = 0;
+                        }*/
+
                     }
                 }
-                if(thisSum > maxSum){
-                    maxSum = thisSum;
-                }
+
             }
-        }*/
-        return 0;
+        }
+        return maxSum;
     }
     
     private static int[][] randMatrix(int m,int n) {
@@ -97,8 +104,8 @@ public class MaxSumTwoDimensions {
     
     private static void test(int[][] m) {
 // Uncomment as you proceed!
-//         System.out.println("EvenBetter: "+maxSubMatrixSumEvenBetter(m));
-         System.out.println("Better: "+maxSubMatrixSumBetter(m));
+        System.out.println("EvenBetter: "+maxSubMatrixSumEvenBetter(m));
+        System.out.println("Better: "+maxSubMatrixSumBetter(m));
         System.out.println("Bad: "+maxSubMatrixSumBad(m));
     }
     
