@@ -69,22 +69,25 @@ public class MaxSumTwoDimensions {
     
     // O(n^4)
     public static int maxSubMatrixSumEvenBetter( int[][] a ) {
-        /*int maxSum = 0, startRpos = 0, startCpos = 0, endCpos = 0, endRpos = 0;
+        int maxSum = 0;
+        int thisSum = 0;
 
-        for(int c1 = 0; c1 < a.length; c1++){
-            for(int r1 = 0; r1 < a[c1].length; r1++){
-                int thisSum = 0;
-                for(int c2 = c1; c2 < a.length; c2++){
-                    for(int r2 = r1; r2 < a[c1].length; r2++){ //möjligtviss ska det vara j istället för i
-                        thisSum += a[r2][c2];
+        for(int r1 = 0; r1 < a.length; r1++){
+            for(int r2 = r1; r2 < a.length; r2++){
+                thisSum = 0;
+                for(int c = 0; c < a.length; c++){
+                    for(int r3 = r1; r3 <= r2; r3++){
+                        thisSum += a[r3][c];
                     }
+                    thisSum = Math.max( 0, thisSum);
+                    maxSum  = Math.max( maxSum, thisSum );
                 }
-                if(thisSum > maxSum){
-                    maxSum = thisSum;
-                }
+
             }
-        }*/
-        return 0;
+
+        }
+
+        return maxSum;
     }
     
     private static int[][] randMatrix(int m,int n) {
@@ -97,8 +100,8 @@ public class MaxSumTwoDimensions {
     
     private static void test(int[][] m) {
 // Uncomment as you proceed!
-//         System.out.println("EvenBetter: "+maxSubMatrixSumEvenBetter(m));
-         System.out.println("Better: "+maxSubMatrixSumBetter(m));
+         System.out.println("EvenBetter: "+maxSubMatrixSumEvenBetter(m));
+        System.out.println("Better: "+maxSubMatrixSumBetter(m));
         System.out.println("Bad: "+maxSubMatrixSumBad(m));
     }
     
@@ -150,7 +153,7 @@ public class MaxSumTwoDimensions {
         	{-11,-9,-48,43,13,-47,-1,-32,-45,-10,-22,-26,36,20,-27,44,29,6,18,-28},
         	{28,46,46,-4,-6,-16,-38,-46,-49,-46,-38,-38,2,46,3,49,-12,-11,-9,31}
         };
-         test(matrix_20x20);
+         //test(matrix_20x20);
         
         // Test the algorithms for random matrixes of increasing sizes.
         /*for ( int size = 1; size <= 2048; size *= 2 ) {
